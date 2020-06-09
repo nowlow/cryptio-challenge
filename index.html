@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>CryptoCurrency pair</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+            * {
+                margin: 0;
+                padding: 0;
+                font-family: 'Montserrat', sans-serif;
+            }
+
+            header {
+                background-color: rgb(26, 26, 26);
+                padding: 30px;
+                box-sizing: border-box;
+                color: white;
+                font-weight: bold;
+            }
+
+            #content {
+                padding: 30px;
+                height: calc(100vh - 140px);
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+                align-content: center;
+            }
+
+            input {
+                padding: 10px;
+                border: 1px solid rgb(200, 200, 200);
+                border-radius: 5px;
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            input:focus {
+                border-color: rgb(13, 161, 172);
+            }
+
+            button {
+                border: none;
+                padding: 10px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>
+            CryptoPair
+        </header>
+        <div id="content">
+            <div>
+                <input type="text" id="base" placeholder="base" />
+                <input type="text" id="quote" placeholder="quote" />
+                <button type="submit" id="submit">Get exchange rate</button>
+            </div>
+        </div>
+        <script>
+            let button = document.getElementById('submit')
+            let base = document.getElementById('base')
+            let quote = document.getElementById('quote')
+
+            button.onclick = () => {
+                let xhr = new XMLHttpRequest()
+
+                xhr.open('GET', `/rate?base=${base.value}&quote=${quote.value}`)
+                xhr.send()
+
+                xhr.onload = function() {
+                    if (xhr.status != 200) {
+                        alert(`Error ${xhr.status}: ${xhr.statusText}`)
+                    } else {
+                        alert(`1 ${base.value} = ${xhr.response} ${quote.value}`)
+                    }
+                }
+
+                xhr.onerror = function() {
+                    alert("Request failed")
+                }
+            }
+        </script>
+    </body>
+</html>
